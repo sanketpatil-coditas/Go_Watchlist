@@ -12,6 +12,3 @@ type WatchlistItem struct {
 	StockSymbol string `gorm:"not null" json:"stock_symbol"`
 }
 
-func (WatchlistItem) TableName() string {
-	return "watchlist"
-}

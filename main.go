@@ -35,14 +35,19 @@ package main
 
 import (
 	databaseConn "Go_Watchlist/dbConn"
+	_ "Go_Watchlist/docs"
 	"Go_Watchlist/handler"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func main() {
 	databaseConn.Init()
 	r := gin.Default()
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.POST("/register/add", handler.RegisterUserHandler)
 	r.POST("/register/remove", handler.RemoveRegisterUser)
