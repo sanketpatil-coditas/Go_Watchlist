@@ -1,0 +1,83 @@
+basePath: /
+definitions:
+  model.WatchlistRequest:
+    properties:
+      pan:
+        type: string
+      stock_symbol:
+        type: string
+    required:
+    - pan
+    - stock_symbol
+    type: object
+  model.WatchlistResponse:
+    properties:
+      stocks:
+        items:
+          type: string
+        type: array
+    type: object
+host: localhost:8081
+info:
+  contact: {}
+  description: Manage user stock watchlist
+  title: Watchlist Service
+  version: "1.0"
+paths:
+  /watchlist/add:
+    post:
+      consumes:
+      - application/json
+      description: Add Favorite stocks in watchlist
+      parameters:
+      - description: Watchlist Input
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/model.WatchlistRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.WatchlistResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add stock to watchlist
+      tags:
+      - Watchlist
+  /watchlist/remove:
+    post:
+      consumes:
+      - application/json
+      description: Remove Unwanted stocks from Watchlist
+      parameters:
+      - description: Watchlist Input
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/model.WatchlistRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.WatchlistResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Remove stock from watchlist
+      tags:
+      - Watchlist
+swagger: "2.0"
