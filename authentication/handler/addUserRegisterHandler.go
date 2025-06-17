@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
-
+var validate = validator.New()
 // RegisterUserHandler godoc
 // @Summary      Register a new user
 // @Description  Register a new user by providing name, PAN, mobile, age, and DOB
@@ -22,7 +22,12 @@ import (
 // @Router       /register/add [post]
 func RegisterUserHandler(c *gin.Context) {
 	var req model.AddUserRequest
+
 	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+	if err := validate.Struct(req); err != nil {
 		var ve validator.ValidationErrors
 		if errors.As(err, &ve) {
 			out := make(map[string]string)
@@ -35,6 +40,7 @@ func RegisterUserHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	
 	if err := service.RegisterUser(req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -2,11 +2,12 @@ package service
 
 import (
 	"Go_Watchlist/watchlist/models"
+	"Go_Watchlist/dbConfig"
 	repo "Go_Watchlist/watchlist/repos"
 )
 
 func AddStockToWatchlist(req model.AddWatchListRequest) error {
-	item := model.AddWatchListItem{
+	item := dbConfig.AddWatchListItem{
 		PAN:         req.PAN,
 		StockSymbol: req.StockSymbol,
 	}

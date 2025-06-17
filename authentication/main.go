@@ -1,9 +1,10 @@
 package main
 
 import (
-	"Go_Watchlist/userAuthentication/db"
-	"Go_Watchlist/userAuthentication/router"
+	// "Go_Watchlist/dbConn"
+	"Go_Watchlist/dbConn"
 	_ "Go_Watchlist/userAuthentication/docs"
+	"Go_Watchlist/userAuthentication/router"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

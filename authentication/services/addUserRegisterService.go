@@ -3,6 +3,7 @@ package service
 import (
 	model "Go_Watchlist/userAuthentication/models"
 	repo "Go_Watchlist/userAuthentication/repos"
+	"Go_Watchlist/dbConfig"
 	"errors"
 	// "regexp"
 )
@@ -17,7 +18,7 @@ func RegisterUser(req model.AddUserRequest) error {
 		return errors.New("User already exists")
 	}
 
-	dbUser := model.AddUserDB{
+	dbUser := dbConfig.AddUserDB{
 		Name:   req.Name,
 		PAN:    req.PAN,
 		Mobile: req.Mobile,

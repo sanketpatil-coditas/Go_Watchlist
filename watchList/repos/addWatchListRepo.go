@@ -1,11 +1,13 @@
 package repo
 
 import (
-	"Go_Watchlist/watchlist/dbConn"
-	"Go_Watchlist/watchlist/models"
+	"Go_Watchlist/dbConn"
+	// "Go_Watchlist/watchlist/models"
+	"Go_Watchlist/dbConfig"
+
 )
 
-func AddToWatchlist(item model.AddWatchListItem) error {
+func AddToWatchlist(item dbConfig.AddWatchListItem) error {
 	return db.DB.Create(&item).Error
 }
 

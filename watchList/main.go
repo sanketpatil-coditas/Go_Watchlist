@@ -1,8 +1,9 @@
 package main
 
 import (
-	db "Go_Watchlist/watchlist/dbConn"
+	"Go_Watchlist/dbConn"
 	_ "Go_Watchlist/watchlist/docs"
+	// "Go_Watchlist/utils/postgres"
 
 	// "Go_Watchlist/watchlist/handler"
 	"Go_Watchlist/watchlist/routes"
