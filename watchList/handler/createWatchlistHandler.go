@@ -44,7 +44,7 @@ var req model.CreateWatchlistRequest
 
 	id, err := h.service.CreateWatchlist(req)
 	if err != nil {
-		fmt.Println("Service Error:", err) // Add this
+		fmt.Println("Service Error:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

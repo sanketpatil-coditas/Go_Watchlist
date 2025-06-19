@@ -2,7 +2,6 @@ package repo
 
 import (
 	"Go_Watchlist/dbConn"
-	// "Go_Watchlist/watchlist/models"
 	"Go_Watchlist/dbConfig"
 
 )
