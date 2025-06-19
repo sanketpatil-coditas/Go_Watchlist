@@ -4,6 +4,7 @@ import (
 	"Go_Watchlist/watchlist/models"
 	"Go_Watchlist/watchlist/repos"
 	"fmt"
+	"log"
 )
 
 type WatchlistDeleteService struct {
@@ -15,6 +16,8 @@ func WatchlistDeleteServiceInterface(r repo.WatchlistDeleteRepository) *Watchlis
 }
 
 func (s *WatchlistDeleteService) DeleteWatchlist(req model.DeleteWatchlistRequest) error {
+	log.Println("Service: Deleting watchlist for user")
+
 	err := s.repo.DeleteWatchlist(req.UserID, req.WatchlistName)
 	if err != nil {
 		return fmt.Errorf("could not delete watchlist '%s' for user %d: %v", req.WatchlistName, req.UserID, err)

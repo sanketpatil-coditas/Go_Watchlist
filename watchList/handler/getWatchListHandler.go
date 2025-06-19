@@ -6,6 +6,7 @@ import (
 	"Go_Watchlist/watchlist/services"
 	"Go_Watchlist/dbConfig"
 	"net/http"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,16 +32,23 @@ func GetWatchlistHandlerInterface(s *service.WatchlistGetService) *GetWatchlistH
 // @Router /watchlist/get [post]
 func (h *GetWatchlistHandler) GetUserWatchlistsHandler(c *gin.Context) {
 	var req model.GetUserWatchlistsRequest
+	log.Println("Received get watchlist request")
+
 	if err := c.ShouldBindJSON(&req); err != nil {
+		log.Println("Validation Error", err.Error())
+
 		c.JSON(http.StatusBadRequest, dbConfig.ErrorResponse{Error: constants.MsgInvalidInput + err.Error()})
 		return
 	}
 
 	resp, err := h.service.GetUserWatchlists(req.UserID)
 	if err != nil {
+		log.Println("Validation Error", err.Error())
+
 		c.JSON(http.StatusInternalServerError, dbConfig.ErrorResponse{Error: err.Error()})
 		return
 	}
+	log.Println("Watchlist fetched successfully with ID")
 
 	c.JSON(http.StatusOK, resp)
 }
