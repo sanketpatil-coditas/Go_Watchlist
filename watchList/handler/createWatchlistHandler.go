@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"Go_Watchlist/watchlist/models"
-	"Go_Watchlist/watchlist/services"
-	"Go_Watchlist/watchlist/constants"
 	"Go_Watchlist/dbConfig"
-	"net/http"
+	"Go_Watchlist/watchlist/constants"
+	model "Go_Watchlist/watchlist/models"
+	service "Go_Watchlist/watchlist/services"
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
