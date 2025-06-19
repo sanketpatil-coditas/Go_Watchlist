@@ -3,7 +3,6 @@ package repo
 import (
 	"Go_Watchlist/dbConfig"
 	"Go_Watchlist/dbConn"
-	"errors"
 	"gorm.io/gorm"
 )
 
@@ -21,11 +20,10 @@ func (r *watchlistCreateRepoImpl) GetWatchlistByName(userID int64, name string) 
 	var watchlist dbConfig.CreateWatchlist
 	err := db.DB.Where("user_id = ? AND watchlist_name = ?", userID, name).First(&watchlist).Error
 
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, nil 
-	}
-
 	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
 		return nil, err
 	}
 	return &watchlist, nil

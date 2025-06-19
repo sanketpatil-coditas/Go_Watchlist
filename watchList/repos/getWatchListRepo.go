@@ -2,8 +2,8 @@ package repo
 
 import (
 	db "Go_Watchlist/dbConn"
-	model "Go_Watchlist/watchlist/models"
 	"Go_Watchlist/dbConfig"
+	"Go_Watchlist/watchlist/models"
 )
 
 type watchlistGetRepoImpl struct{}

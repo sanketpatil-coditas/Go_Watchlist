@@ -1,11 +1,11 @@
 package handler
 
 import (
-	"Go_Watchlist/userAuthentication/constants"
-	model "Go_Watchlist/watchlist/models"
-	service "Go_Watchlist/watchlist/services"
+	"Go_Watchlist/watchlist/constants"
+	"Go_Watchlist/watchlist/models"
+	"Go_Watchlist/watchlist/services"
 	"net/http"
-
+	"Go_Watchlist/dbConfig"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,20 +25,22 @@ func DeleteWatchlistHandlerInterface(s *service.WatchlistDeleteService) *DeleteW
 // @Produce  json
 // @Param request body model.DeleteWatchlistRequest true "Delete Watchlist Request"
 // @Success 200 {object} model.DeleteWatchlistResponse
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
+// @Failure 400 {object} model.ErrorResponse
+// @Failure 500 {object} model.ErrorResponse
 // @Router /watchlist/remove [post]
 func (h *DeleteWatchlistHandler) DeleteWatchlist(c *gin.Context) {
 	var req model.DeleteWatchlistRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, dbConfig.ErrorResponse{Error: "Invalid input: " + err.Error()})
 		return
 	}
+
 	if err := h.service.DeleteWatchlist(req); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, dbConfig.ErrorResponse{Error: err.Error()})
 		return
 	}
+
 	c.JSON(http.StatusOK, model.DeleteWatchlistResponse{
-		Message: constants.MsgUserRegisterremove,
+		Message: constants.MsgWatchlistremove,
 	})
 }

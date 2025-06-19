@@ -26,5 +26,5 @@ type AddUserDB struct {
 }
 
 type ErrorResponse struct {
-	Error string `json:"error"`
+	Error string `json:"error" example:"Something went wrong"`
 }

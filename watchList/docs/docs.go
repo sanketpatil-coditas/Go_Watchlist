@@ -198,10 +198,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Watchlist created successfully"
                 }
             }
         },

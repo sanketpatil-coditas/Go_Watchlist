@@ -1,11 +1,11 @@
 package service
 
 import (
+	"Go_Watchlist/watchlist/models"
+	"Go_Watchlist/watchlist/repos"
 	"Go_Watchlist/dbConfig"
-	model "Go_Watchlist/watchlist/models"
-	repo "Go_Watchlist/watchlist/repos"
-	"fmt"
 	"time"
+	"fmt"
 )
 
 type WatchlistCreateService struct {
@@ -24,13 +24,13 @@ func (s *WatchlistCreateService) CreateWatchlist(req model.CreateWatchlistReques
 	if existing != nil {
 		return 0, fmt.Errorf("watchlist with name '%s' already exists", req.WatchlistName)
 	}
+
 	watchlist := dbConfig.CreateWatchlist{
 		UserID:        req.UserID,
 		WatchlistName: req.WatchlistName,
 		LastUpdatedAt: time.Now(),
 	}
-	err = s.repo.CreateWatchlist(&watchlist)
-	if err != nil {
+	if err := s.repo.CreateWatchlist(&watchlist); err != nil {
 		return 0, err
 	}
 	return watchlist.ID, nil

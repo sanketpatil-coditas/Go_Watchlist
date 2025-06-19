@@ -15,8 +15,10 @@ definitions:
   model.CreateWatchlistSuccessResponse:
     properties:
       id:
+        example: 1
         type: integer
       message:
+        example: Watchlist created successfully
         type: string
     type: object
   model.DeleteWatchlistRequest:

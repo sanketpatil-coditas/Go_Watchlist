@@ -12,7 +12,8 @@ func WatchlistDeleteRepoInterface() WatchlistDeleteRepository {
 }
 
 func (r *watchlistDeleteRepoImpl) DeleteWatchlist(userID int64, name string) error {
-	return db.DB.Where("user_id = ? AND watchlist_name = ?", userID, name).
+	return db.DB.
+		Where("user_id = ? AND watchlist_name = ?", userID, name).
 		Delete(&dbConfig.CreateWatchlist{}).
 		Error
 }

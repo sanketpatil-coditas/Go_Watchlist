@@ -17,7 +17,7 @@ func WatchlistDeleteServiceInterface(r repo.WatchlistDeleteRepository) *Watchlis
 func (s *WatchlistDeleteService) DeleteWatchlist(req model.DeleteWatchlistRequest) error {
 	err := s.repo.DeleteWatchlist(req.UserID, req.WatchlistName)
 	if err != nil {
-		return fmt.Errorf("could not delete watchlist %q for user %d: %v", req.WatchlistName, req.UserID, err)
+		return fmt.Errorf("could not delete watchlist '%s' for user %d: %v", req.WatchlistName, req.UserID, err)
 	}
 	return nil
 }

@@ -3,9 +3,11 @@ package handler
 import (
 	"Go_Watchlist/watchlist/models"
 	"Go_Watchlist/watchlist/services"
+	"Go_Watchlist/watchlist/constants"
+	"Go_Watchlist/dbConfig"
 	"net/http"
 	"fmt"
-	"Go_Watchlist/watchlist/constants"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
@@ -19,6 +21,7 @@ func CreateWatchlistHandlerInterface(s *service.WatchlistCreateService) *CreateW
 }
 
 var createValidator = validator.New()
+
 // CreateWatchlist godoc
 // @Summary Create a new watchlist
 // @Description Create a new watchlist for a specific user
@@ -31,21 +34,22 @@ var createValidator = validator.New()
 // @Failure 500 {object} map[string]string
 // @Router /watchlist/create [post]
 func (h *CreateWatchlistHandler) CreateWatchlist(c *gin.Context) {
-var req model.CreateWatchlistRequest
+	var req model.CreateWatchlistRequest
+
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, dbConfig.ErrorResponse{Error: err.Error()})
 		return
 	}
 
 	if err := createValidator.Struct(req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, dbConfig.ErrorResponse{Error: err.Error()})
 		return
 	}
 
 	id, err := h.service.CreateWatchlist(req)
 	if err != nil {
 		fmt.Println("Service Error:", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, dbConfig.ErrorResponse{Error: err.Error()})
 		return
 	}
 
