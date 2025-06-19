@@ -1,83 +1,173 @@
 basePath: /
 definitions:
-  model.WatchlistRequest:
+  model.CreateWatchlistRequest:
     properties:
-      pan:
-        type: string
-      stock_symbol:
+      userId:
+        example: 101
+        type: integer
+      watchlistName:
+        example: Tech Stocks
         type: string
     required:
-    - pan
-    - stock_symbol
+    - userId
+    - watchlistName
     type: object
-  model.WatchlistResponse:
+  model.CreateWatchlistSuccessResponse:
     properties:
-      stocks:
+      id:
+        type: integer
+      message:
+        type: string
+    type: object
+  model.DeleteWatchlistRequest:
+    properties:
+      userId:
+        type: integer
+      watchlistName:
+        type: string
+    required:
+    - userId
+    - watchlistName
+    type: object
+  model.DeleteWatchlistResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  model.GetUserWatchlistsRequest:
+    properties:
+      userId:
+        example: 101
+        type: integer
+    required:
+    - userId
+    type: object
+  model.GetUserWatchlistsResponse:
+    properties:
+      userId:
+        type: integer
+      watchlists:
         items:
-          type: string
+          $ref: '#/definitions/model.WatchlistInfo'
         type: array
+    type: object
+  model.WatchlistInfo:
+    properties:
+      id:
+        type: integer
+      watchlistName:
+        type: string
     type: object
 host: localhost:8081
 info:
-  contact: {}
-  description: Manage user stock watchlist
-  title: Watchlist Service
+  contact:
+    email: yourname@example.com
+    name: Sanket Patil
+  description: This is an API for managing stock watchlists
+  termsOfService: http://example.com/terms/
+  title: Go Watchlist API
   version: "1.0"
 paths:
-  /watchlist/add:
+  /watchlist/create:
     post:
       consumes:
       - application/json
-      description: Add Favorite stocks in watchlist
+      description: Create a new watchlist for a specific user
       parameters:
-      - description: Watchlist Input
+      - description: Watchlist Request
         in: body
-        name: item
+        name: request
         required: true
         schema:
-          $ref: '#/definitions/model.WatchlistRequest'
+          $ref: '#/definitions/model.CreateWatchlistRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.WatchlistResponse'
+            $ref: '#/definitions/model.CreateWatchlistSuccessResponse'
         "400":
           description: Bad Request
           schema:
             additionalProperties:
               type: string
             type: object
-      summary: Add stock to watchlist
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new watchlist
+      tags:
+      - Watchlist
+  /watchlist/get:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new stock watchlist for a user.
+      parameters:
+      - description: Get Watchlist Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.GetUserWatchlistsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GetUserWatchlistsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new watchlist
       tags:
       - Watchlist
   /watchlist/remove:
     post:
       consumes:
       - application/json
-      description: Remove Unwanted stocks from Watchlist
+      description: Delete a watchlist for a specific user by name
       parameters:
-      - description: Watchlist Input
+      - description: Delete Watchlist Request
         in: body
-        name: item
+        name: request
         required: true
         schema:
-          $ref: '#/definitions/model.WatchlistRequest'
+          $ref: '#/definitions/model.DeleteWatchlistRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.WatchlistResponse'
+            $ref: '#/definitions/model.DeleteWatchlistResponse'
         "400":
           description: Bad Request
           schema:
             additionalProperties:
               type: string
             type: object
-      summary: Remove stock from watchlist
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a watchlist
       tags:
       - Watchlist
 swagger: "2.0"

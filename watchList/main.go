@@ -3,9 +3,6 @@ package main
 import (
 	"Go_Watchlist/dbConn"
 	_ "Go_Watchlist/watchlist/docs"
-	// "Go_Watchlist/utils/postgres"
-
-	// "Go_Watchlist/watchlist/handler"
 	"Go_Watchlist/watchlist/routes"
 
 	"github.com/gin-gonic/gin"
@@ -13,11 +10,17 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title Watchlist Service
+// @title Go Watchlist API
 // @version 1.0
-// @description Manage user stock watchlist
+// @description This is an API for managing stock watchlists
+// @termsOfService http://example.com/terms/
+
+// @contact.name Sanket Patil
+// @contact.email yourname@example.com
+
 // @host localhost:8081
 // @BasePath /
+
 func main() {
 	db.Connect()
 

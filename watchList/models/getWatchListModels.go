@@ -1,16 +1,12 @@
 package model
 
-import "time"
-
 type GetUserWatchlistsRequest struct {
-	UserID int64 `json:"userId" validate:"required"`
+	UserID int64 `json:"userId" validate:"required" example:"101"`
 }
 
 type WatchlistInfo struct {
-	ID            int64     `json:"id"`
-	WatchlistName string    `json:"watchlistName"`
-	LastUpdatedAt time.Time `json:"lastUpdatedAt"`
-	ScripCount    *int64    `json:"scripCount,omitempty"`
+	ID            int64  `json:"id"`
+	WatchlistName string `json:"watchlistName"`
 }
 
 type GetUserWatchlistsResponse struct {

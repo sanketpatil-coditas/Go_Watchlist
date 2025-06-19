@@ -11,15 +11,6 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-// @Summary Add stock to watchlist
-// @Description  Add Favorite stocks in watchlist
-// @Tags Watchlist
-// @Accept json
-// @Produce json
-// @Param item body model.WatchlistRequest true "Watchlist Input"
-// @Success 200 {object} model.WatchlistResponse
-// @Failure 400 {object} map[string]string
-// @Router /watchlist/add [post]
 func AddToWatchlistHandler(c *gin.Context) {
 	var req model.AddWatchListRequest
 	if err := c.ShouldBindJSON(&req); err != nil {

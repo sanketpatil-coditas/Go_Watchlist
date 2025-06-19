@@ -3,6 +3,7 @@ package handler
 import (
 	model "Go_Watchlist/userAuthentication/models"
 	service "Go_Watchlist/userAuthentication/services"
+	"Go_Watchlist/userAuthentication/constants"
 	"errors"
 	"net/http"
 
@@ -52,22 +53,22 @@ func RegisterUserHandler(c *gin.Context) {
 		Age:    req.Age,
 		DOB:    req.DOB,
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "User registered successfully",
+	c.JSON(http.StatusOK, gin.H{"message": constants.MsgUserRegisterSuccess,
 		"User": resp})
 }
 func customErrorMessage(fe validator.FieldError) string {
 	switch fe.Field() {
 	case "Name":
-		return "Name is required"
+		return constants.ErrNameRequired
 	case "PAN":
-		return "PAN must be exactly 10 alphanumeric characters"
+		return constants.ErrPANInvalid
 	case "Mobile":
-		return "Mobile number must be exactly 10 digits"
+		return constants.ErrMobileInvalid
 	case "Age":
-		return "Age must be greater than 0"
+		return constants.ErrAgeInvalid
 	case "DOB":
-		return "DOB is required and must be in YYYY-MM-DD format"
+		return constants.ErrDOBRequired
 	default:
-		return "Invalid value"
+		return constants.ErrInvalidValue
 	}
 }

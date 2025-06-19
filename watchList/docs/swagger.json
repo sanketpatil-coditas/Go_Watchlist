@@ -1,17 +1,21 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Manage user stock watchlist",
-        "title": "Watchlist Service",
-        "contact": {},
+        "description": "This is an API for managing stock watchlists",
+        "title": "Go Watchlist API",
+        "termsOfService": "http://example.com/terms/",
+        "contact": {
+            "name": "Sanket Patil",
+            "email": "yourname@example.com"
+        },
         "version": "1.0"
     },
     "host": "localhost:8081",
     "basePath": "/",
     "paths": {
-        "/watchlist/add": {
+        "/watchlist/create": {
             "post": {
-                "description": "Add Favorite stocks in watchlist",
+                "description": "Create a new watchlist for a specific user",
                 "consumes": [
                     "application/json"
                 ],
@@ -21,15 +25,15 @@
                 "tags": [
                     "Watchlist"
                 ],
-                "summary": "Add stock to watchlist",
+                "summary": "Create a new watchlist",
                 "parameters": [
                     {
-                        "description": "Watchlist Input",
-                        "name": "item",
+                        "description": "Watchlist Request",
+                        "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.WatchlistRequest"
+                            "$ref": "#/definitions/model.CreateWatchlistRequest"
                         }
                     }
                 ],
@@ -37,11 +41,72 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.WatchlistResponse"
+                            "$ref": "#/definitions/model.CreateWatchlistSuccessResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/watchlist/get": {
+            "post": {
+                "description": "Creates a new stock watchlist for a user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Watchlist"
+                ],
+                "summary": "Create a new watchlist",
+                "parameters": [
+                    {
+                        "description": "Get Watchlist Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.GetUserWatchlistsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GetUserWatchlistsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -54,7 +119,7 @@
         },
         "/watchlist/remove": {
             "post": {
-                "description": "Remove Unwanted stocks from Watchlist",
+                "description": "Delete a watchlist for a specific user by name",
                 "consumes": [
                     "application/json"
                 ],
@@ -64,15 +129,15 @@
                 "tags": [
                     "Watchlist"
                 ],
-                "summary": "Remove stock from watchlist",
+                "summary": "Delete a watchlist",
                 "parameters": [
                     {
-                        "description": "Watchlist Input",
-                        "name": "item",
+                        "description": "Delete Watchlist Request",
+                        "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.WatchlistRequest"
+                            "$ref": "#/definitions/model.DeleteWatchlistRequest"
                         }
                     }
                 ],
@@ -80,11 +145,20 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.WatchlistResponse"
+                            "$ref": "#/definitions/model.DeleteWatchlistResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -97,29 +171,91 @@
         }
     },
     "definitions": {
-        "model.WatchlistRequest": {
+        "model.CreateWatchlistRequest": {
             "type": "object",
             "required": [
-                "pan",
-                "stock_symbol"
+                "userId",
+                "watchlistName"
             ],
             "properties": {
-                "pan": {
-                    "type": "string"
+                "userId": {
+                    "type": "integer",
+                    "example": 101
                 },
-                "stock_symbol": {
+                "watchlistName": {
+                    "type": "string",
+                    "example": "Tech Stocks"
+                }
+            }
+        },
+        "model.CreateWatchlistSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "message": {
                     "type": "string"
                 }
             }
         },
-        "model.WatchlistResponse": {
+        "model.DeleteWatchlistRequest": {
+            "type": "object",
+            "required": [
+                "userId",
+                "watchlistName"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "integer"
+                },
+                "watchlistName": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.DeleteWatchlistResponse": {
             "type": "object",
             "properties": {
-                "stocks": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.GetUserWatchlistsRequest": {
+            "type": "object",
+            "required": [
+                "userId"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "integer",
+                    "example": 101
+                }
+            }
+        },
+        "model.GetUserWatchlistsResponse": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "type": "integer"
+                },
+                "watchlists": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/model.WatchlistInfo"
                     }
+                }
+            }
+        },
+        "model.WatchlistInfo": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "watchlistName": {
+                    "type": "string"
                 }
             }
         }

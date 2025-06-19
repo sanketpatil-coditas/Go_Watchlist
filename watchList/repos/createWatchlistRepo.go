@@ -1,28 +1,32 @@
 package repo
 
 import (
-	"Go_Watchlist/dbConn"
-	// "Go_Watchlist/watchlist/models"
 	"Go_Watchlist/dbConfig"
-	"time"
+	"Go_Watchlist/dbConn"
+	"errors"
 	"gorm.io/gorm"
 )
 
-func CreateWatchlist(w dbConfig.CreateWatchlist) error {
-	w.LastUpdatedAt = time.Now()
-	return db.DB.Create(&w).Error
+type watchlistCreateRepoImpl struct{}
+
+func WatchlistCreateRepoInterface() WatchlistCreateRepository {
+	return &watchlistCreateRepoImpl{}
 }
-func GetWatchlistByName(userID int64, name string) (*dbConfig.CreateWatchlist, error) {
+
+func (r *watchlistCreateRepoImpl) CreateWatchlist(watchlist *dbConfig.CreateWatchlist) error {
+	return db.DB.Create(watchlist).Error
+}
+
+func (r *watchlistCreateRepoImpl) GetWatchlistByName(userID int64, name string) (*dbConfig.CreateWatchlist, error) {
 	var watchlist dbConfig.CreateWatchlist
 	err := db.DB.Where("user_id = ? AND watchlist_name = ?", userID, name).First(&watchlist).Error
 
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return nil, nil // not found = no duplicate
-		}
-		return nil, err // real error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, nil 
 	}
-	return &watchlist, nil // found = duplicate
+
+	if err != nil {
+		return nil, err
+	}
+	return &watchlist, nil
 }
-
-

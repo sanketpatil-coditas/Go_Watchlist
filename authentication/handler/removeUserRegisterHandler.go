@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"Go_Watchlist/userAuthentication/constants"
 	model "Go_Watchlist/userAuthentication/models"
 	service "Go_Watchlist/userAuthentication/services"
 	"errors"
@@ -48,7 +49,7 @@ func RemoveUserHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "User removed successfully",
+		"message": constants.MsgUserRegisterremove,
 		"User":    resp,
 	})
 }
@@ -56,16 +57,16 @@ func RemoveUserHandler(c *gin.Context) {
 func customErrorMessageRemoveUser(fe validator.FieldError) string {
 	switch fe.Field() {
 	case "Name":
-		return "Name is required"
+		return constants.ErrNameRequired
 	case "PAN":
-		return "PAN must be exactly 10 alphanumeric characters"
+		return constants.ErrPANInvalid
 	case "Mobile":
-		return "Mobile number must be exactly 10 digits"
+		return constants.ErrMobileInvalid
 	case "Age":
-		return "Age must be greater than 0"
+		return constants.ErrAgeInvalid
 	case "DOB":
-		return "DOB is required"
+		return constants.ErrDOBRequired
 	default:
-		return "Invalid field"
+		return constants.ErrInvalidValue
 	}
 }

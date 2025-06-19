@@ -3,7 +3,7 @@ package service
 import (
 	"Go_Watchlist/watchlist/models"
 	"Go_Watchlist/dbConfig"
-	repo "Go_Watchlist/watchlist/repos"
+	"Go_Watchlist/watchlist/repos"
 )
 
 func AddStockToWatchlist(req model.AddWatchListRequest) error {

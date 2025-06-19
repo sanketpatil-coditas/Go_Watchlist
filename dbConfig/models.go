@@ -24,3 +24,7 @@ type AddUserDB struct {
 	Age    int    `gorm:"not null"`
 	DOB    string `gorm:"not null"`
 }
+
+type ErrorResponse struct {
+	Error string `json:"error"`
+}
